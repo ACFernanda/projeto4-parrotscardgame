@@ -11,3 +11,10 @@ function questionNumberOfCards() {
 }
 
 questionNumberOfCards();
+
+function rotateCard(cardClass) {
+  let shownFace = document.querySelector(".shown-face");
+  shownFace.classList.toggle("hide");
+  let hiddenFace = document.querySelector(".hidden-face");
+  hiddenFace.classList.toggle("hide");
+}

@@ -22,7 +22,7 @@ main {
   margin-top: 47px;
   display: flex;
   justify-content: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
 }
 
 .card {
@@ -31,9 +31,11 @@ main {
   background-color: #a7e9af;
   border-radius: 5px;
   position: relative;
+  margin-left: 34px;
+  margin-bottom: 34px;
 }
 
-.front-face img {
+.shown-face img {
   position: absolute;
   width: 100px;
   height: 100px;
@@ -43,6 +45,13 @@ main {
   right: 7px;
 }
 
-.content-face {
+.hidden-face img {
+  position: absolute;
+  width: 100px;
+  top: 23px;
+  left: 8.5px;
+}
+
+.hide {
   visibility: hidden;
 }
