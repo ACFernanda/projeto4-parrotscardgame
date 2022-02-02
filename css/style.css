@@ -17,3 +17,32 @@ header {
   align-items: center;
   justify-content: center;
 }
+
+main {
+  margin-top: 47px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.card {
+  width: 117px;
+  height: 146px;
+  background-color: #a7e9af;
+  border-radius: 5px;
+  position: relative;
+}
+
+.front-face img {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 24px;
+  bottom: 22px;
+  left: 7px;
+  right: 7px;
+}
+
+.content-face {
+  visibility: hidden;
+}
