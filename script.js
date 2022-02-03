@@ -18,7 +18,7 @@ function dealCards() {
     boardGame.innerHTML =
       boardGame.innerHTML +
       `
-    <div class="card" data-identifier="card" onclick="rotateCard(this)">
+    <div class="card" data-identifier="card" onclick="selectCard(this)">
       <div class="shown-face" data-identifier="back-face">
         <img src="imagens/front.png" alt="parrot-logo" />
       </div>
@@ -31,9 +31,18 @@ function dealCards() {
 
 dealCards();
 
-function rotateCard(cardClass) {
-  let shownFace = document.querySelector(".shown-face");
+function selectCard(cardClass) {
+  const selected = document.querySelector(".selected");
+  if (selected !== null) {
+    selected.classList.remove("selected");
+  }
+  cardClass.classList.add("selected");
+  rotateCard();
+}
+
+function rotateCard() {
+  let shownFace = document.querySelector(".selected .shown-face");
   shownFace.classList.toggle("hide");
-  let hiddenFace = document.querySelector(".hidden-face");
+  let hiddenFace = document.querySelector(".selected .hidden-face");
   hiddenFace.classList.toggle("hide");
 }
