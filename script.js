@@ -1,7 +1,7 @@
 let numberOfCards = parseInt(
   prompt("Escolha um número de cartas: de 4 a 14, par")
 );
-let cardsOpen = 0;
+
 const cardsImages = [
   "bobrossparrot",
   "explodyparrot",
@@ -11,6 +11,12 @@ const cardsImages = [
   "tripletsparrot",
   "unicornparrot",
 ];
+
+const cardsOpen = [];
+
+//---------------------------------------------------------------------------------------------
+
+cardsImages.sort(ramdomize);
 
 function questionNumberOfCards() {
   while (numberOfCards % 2 !== 0 || numberOfCards > 14 || numberOfCards < 4) {
@@ -36,12 +42,12 @@ function dealCards() {
     boardGame.innerHTML =
       boardGame.innerHTML +
       `
-      <div class="card" data-identifier="card" onclick="selectCard(this)">
+      <div class="card" data-identifier="card" onclick="selectCard(this, '${gameCards[j]}')">
         <div class="shown-face" data-identifier="back-face">
           <img src="imagens/front.png" alt="parrot-logo" />
         </div>
         <div class="hidden-face hide" data-identifier="front-face">
-          <img src="imagens/${gameCards[j]}.gif" alt="${gameCards[j]}" />
+          <img class="${gameCards[j]}" src="imagens/${gameCards[j]}.gif" alt="${gameCards[j]}" />
         </div>
       </div>`;
   }
@@ -52,19 +58,37 @@ function ramdomize() {
   return Math.random() - 0.5;
 }
 
-function selectCard(cardClass) {
-  const selected = document.querySelector(".selected");
-  if (selected !== null) {
-    selected.classList.remove("selected");
+function selectCard(cardClass, cardName) {
+  if (cardsOpen.length < 2) {
+    const selected = document.querySelector(".selected");
+    if (selected !== null) {
+      selected.classList.remove("selected");
+    }
+    cardClass.classList.add("selected");
+    flipCard();
+    cardsOpen.push(cardName);
   }
-  cardClass.classList.add("selected");
-  rotateCard();
-  cardsOpen = cardsOpen + 1;
 }
 
-function rotateCard() {
+function flipCard() {
   let shownFace = document.querySelector(".selected .shown-face");
-  shownFace.classList.toggle("hide");
+  shownFace.classList.add("hide");
   let hiddenFace = document.querySelector(".selected .hidden-face");
-  hiddenFace.classList.toggle("hide");
+  hiddenFace.classList.remove("hide");
 }
+
+function closeCard() {
+  let shownFace = document.querySelector(".selected .shown-face");
+  shownFace.classList.remove("hide");
+  let hiddenFace = document.querySelector(".selected .hidden-face");
+  hiddenFace.classList.add("hide");
+}
+
+function checkPair() {
+  for (let i = 0; i < cardsOpen.length; i++) {
+    if (cardsOpen[0] !== cardsOpen[1]) {
+      closeCard();
+    }
+  }
+}
+checkPair();
