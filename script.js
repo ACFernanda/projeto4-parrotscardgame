@@ -16,7 +16,7 @@ const cardsOpen = [];
 
 //---------------------------------------------------------------------------------------------
 
-cardsImages.sort(ramdomize);
+cardsImages.sort(randomize);
 
 function questionNumberOfCards() {
   while (numberOfCards % 2 !== 0 || numberOfCards > 14 || numberOfCards < 4) {
@@ -35,7 +35,7 @@ function dealCards() {
     gameCards.push(cardsImages[i]);
   }
 
-  gameCards.sort(ramdomize);
+  gameCards.sort(randomize);
 
   const boardGame = document.querySelector("main");
   for (let j = 0; j < gameCards.length; j++) {
@@ -43,7 +43,7 @@ function dealCards() {
       boardGame.innerHTML +
       `
       <div class="card" data-identifier="card" onclick="selectCard(this, '${gameCards[j]}')">
-        <div class="shown-face" data-identifier="back-face">
+        <div class="shown-face show" data-identifier="back-face">
           <img src="imagens/front.png" alt="parrot-logo" />
         </div>
         <div class="hidden-face hide" data-identifier="front-face">
@@ -54,7 +54,7 @@ function dealCards() {
 }
 dealCards();
 
-function ramdomize() {
+function randomize() {
   return Math.random() - 0.5;
 }
 
@@ -68,27 +68,33 @@ function selectCard(cardClass, cardName) {
     flipCard();
     cardsOpen.push(cardName);
   }
+
+  if (cardsOpen.length === 2) {
+    checkPair();
+  }
 }
 
 function flipCard() {
   let shownFace = document.querySelector(".selected .shown-face");
   shownFace.classList.add("hide");
+  shownFace.classList.remove("show");
   let hiddenFace = document.querySelector(".selected .hidden-face");
   hiddenFace.classList.remove("hide");
-}
-
-function closeCard() {
-  let shownFace = document.querySelector(".selected .shown-face");
-  shownFace.classList.remove("hide");
-  let hiddenFace = document.querySelector(".selected .hidden-face");
-  hiddenFace.classList.add("hide");
+  hiddenFace.classList.add("show");
 }
 
 function checkPair() {
-  for (let i = 0; i < cardsOpen.length; i++) {
-    if (cardsOpen[0] !== cardsOpen[1]) {
-      closeCard();
-    }
+  if (cardsOpen[0] !== cardsOpen[1]) {
+    setTimeout(closeCard, 5000);
   }
 }
-checkPair();
+
+function closeCard() {
+  for (let i = 0; i < cardsOpen.length; i++) {
+    let shownFace = document.querySelector(".shown-face.hide");
+    shownFace.classList.remove("hide");
+    let hiddenFace = document.querySelector(".hidden-face.show");
+    hiddenFace.classList.add("hide");
+    hiddenFace.classList.remove("show");
+  }
+}
