@@ -1,6 +1,16 @@
 let numberOfCards = parseInt(
   prompt("Escolha um número de cartas: de 4 a 14, par")
 );
+let cardsOpen = 0;
+const cardsImages = [
+  "bobrossparrot",
+  "explodyparrot",
+  "fiestaparrot",
+  "metalparrot",
+  "revertitparrot",
+  "tripletsparrot",
+  "unicornparrot",
+];
 
 function questionNumberOfCards() {
   while (numberOfCards % 2 !== 0 || numberOfCards > 14 || numberOfCards < 4) {
@@ -14,18 +24,26 @@ questionNumberOfCards();
 
 function dealCards() {
   const boardGame = document.querySelector("main");
-  for (let i = 0; i < numberOfCards; i++) {
+  for (let i = 0; i < numberOfCards / 2; i++) {
     boardGame.innerHTML =
       boardGame.innerHTML +
       `
-    <div class="card" data-identifier="card" onclick="selectCard(this)">
-      <div class="shown-face" data-identifier="back-face">
-        <img src="imagens/front.png" alt="parrot-logo" />
+      <div class="card" data-identifier="card" onclick="selectCard(this)">
+        <div class="shown-face" data-identifier="back-face">
+          <img src="imagens/front.png" alt="parrot-logo" />
+        </div>
+        <div class="hidden-face hide" data-identifier="front-face">
+          <img src="imagens/${cardsImages[i]}.gif" alt="${cardsImages[i]}" />
+        </div>
       </div>
-      <div class="hidden-face hide" data-identifier="front-face">
-        <img src="imagens/bobrossparrot.gif" alt="bobrossparrot" />
-      </div>
-    </div>`;
+      <div class="card" data-identifier="card" onclick="selectCard(this)">
+        <div class="shown-face" data-identifier="back-face">
+          <img src="imagens/front.png" alt="parrot-logo" />
+        </div>
+        <div class="hidden-face hide" data-identifier="front-face">
+          <img src="imagens/${cardsImages[i]}.gif" alt="${cardsImages[i]}" />
+        </div>
+      </div>`;
   }
 }
 
@@ -38,6 +56,7 @@ function selectCard(cardClass) {
   }
   cardClass.classList.add("selected");
   rotateCard();
+  cardsOpen = cardsOpen + 1;
 }
 
 function rotateCard() {
