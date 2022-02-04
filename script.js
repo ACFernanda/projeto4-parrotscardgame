@@ -23,8 +23,16 @@ function questionNumberOfCards() {
 questionNumberOfCards();
 
 function dealCards() {
-  const boardGame = document.querySelector("main");
+  let gameCards = [];
   for (let i = 0; i < numberOfCards / 2; i++) {
+    gameCards.push(cardsImages[i]);
+    gameCards.push(cardsImages[i]);
+  }
+
+  gameCards.sort(ramdomize);
+
+  const boardGame = document.querySelector("main");
+  for (let j = 0; j < gameCards.length; j++) {
     boardGame.innerHTML =
       boardGame.innerHTML +
       `
@@ -33,21 +41,16 @@ function dealCards() {
           <img src="imagens/front.png" alt="parrot-logo" />
         </div>
         <div class="hidden-face hide" data-identifier="front-face">
-          <img src="imagens/${cardsImages[i]}.gif" alt="${cardsImages[i]}" />
-        </div>
-      </div>
-      <div class="card" data-identifier="card" onclick="selectCard(this)">
-        <div class="shown-face" data-identifier="back-face">
-          <img src="imagens/front.png" alt="parrot-logo" />
-        </div>
-        <div class="hidden-face hide" data-identifier="front-face">
-          <img src="imagens/${cardsImages[i]}.gif" alt="${cardsImages[i]}" />
+          <img src="imagens/${gameCards[j]}.gif" alt="${gameCards[j]}" />
         </div>
       </div>`;
   }
 }
-
 dealCards();
+
+function ramdomize() {
+  return Math.random() - 0.5;
+}
 
 function selectCard(cardClass) {
   const selected = document.querySelector(".selected");

@@ -51,6 +51,7 @@ main {
 .hidden-face img {
   position: absolute;
   width: 100px;
+  height: 100px;
   top: 23px;
   left: 8.5px;
 }
