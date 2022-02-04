@@ -12,8 +12,9 @@ const cardsImages = [
   "unicornparrot",
 ];
 
-const cardsOpen = [];
+let cardsOpen = [];
 
+const correctPair = [];
 //---------------------------------------------------------------------------------------------
 
 cardsImages.sort(randomize);
@@ -58,19 +59,19 @@ function randomize() {
   return Math.random() - 0.5;
 }
 
-function selectCard(cardClass, cardName) {
+function selectCard(divCard, cardName) {
   if (cardsOpen.length < 2) {
     const selected = document.querySelector(".selected");
     if (selected !== null) {
       selected.classList.remove("selected");
     }
-    cardClass.classList.add("selected");
+    divCard.classList.add("selected");
     flipCard();
     cardsOpen.push(cardName);
   }
 
   if (cardsOpen.length === 2) {
-    checkPair();
+    checkPair(divCard);
   }
 }
 
@@ -85,7 +86,9 @@ function flipCard() {
 
 function checkPair() {
   if (cardsOpen[0] !== cardsOpen[1]) {
-    setTimeout(closeCard, 5000);
+    setTimeout(closeCard, 1000);
+  } else {
+    correctPair.push(cardsOpen[0]);
   }
 }
 
@@ -97,4 +100,9 @@ function closeCard() {
     hiddenFace.classList.add("hide");
     hiddenFace.classList.remove("show");
   }
+  clearCardsOpen();
+}
+
+function clearCardsOpen() {
+  cardsOpen = [];
 }
