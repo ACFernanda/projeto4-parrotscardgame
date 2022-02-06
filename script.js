@@ -15,6 +15,8 @@ const cardsImages = [
 let cardsOpen = [];
 
 const correctPair = [];
+
+let numberOfPlays = 0;
 //---------------------------------------------------------------------------------------------
 
 cardsImages.sort(randomize);
@@ -44,10 +46,10 @@ function dealCards() {
       boardGame.innerHTML +
       `
       <div class="card" data-identifier="card" onclick="selectCard(this, '${gameCards[j]}')">
-        <div class="shown-face show" data-identifier="back-face">
+        <div class="shown-face show incorrect" data-identifier="back-face">
           <img src="imagens/front.png" alt="parrot-logo" />
         </div>
-        <div class="hidden-face hide" data-identifier="front-face">
+        <div class="hidden-face hide incorrect" data-identifier="front-face">
           <img class="${gameCards[j]}" src="imagens/${gameCards[j]}.gif" alt="${gameCards[j]}" />
         </div>
       </div>`;
@@ -71,34 +73,57 @@ function selectCard(divCard, cardName) {
   }
 
   if (cardsOpen.length === 2) {
-    checkPair(divCard);
+    checkPair(cardName);
   }
 }
 
 function flipCard() {
-  let shownFace = document.querySelector(".selected .shown-face");
+  let shownFace = document.querySelector(".selected .shown-face.incorrect");
   shownFace.classList.add("hide");
   shownFace.classList.remove("show");
-  let hiddenFace = document.querySelector(".selected .hidden-face");
+  let hiddenFace = document.querySelector(".selected .hidden-face.incorrect");
   hiddenFace.classList.remove("hide");
   hiddenFace.classList.add("show");
+
+  numberOfPlays = numberOfPlays + 1;
 }
 
 function checkPair() {
+  let shownFace = document.querySelector(".shown-face.incorrect.hide");
+  let hiddenFace = document.querySelector(".hidden-face.incorrect.show");
   if (cardsOpen[0] !== cardsOpen[1]) {
     setTimeout(closeCard, 1000);
   } else {
-    correctPair.push(cardsOpen[0]);
+    for (let i = 0; i < cardsOpen.length; i++) {
+      correctPair.push(cardsOpen[i]);
+      let shownFaceBeCorrect = document.querySelectorAll(
+        ".shown-face.incorrect.hide"
+      );
+      let hiddenFaceBeCorrect = document.querySelectorAll(
+        ".hidden-face.incorrect.show"
+      );
+      for (let i = 0; i < shownFaceBeCorrect.length; i++) {
+        let correct = shownFaceBeCorrect[i];
+        correct.classList.remove("incorrect");
+      }
+      for (let i = 0; i < hiddenFaceBeCorrect.length; i++) {
+        let correct2 = hiddenFaceBeCorrect[i];
+        correct2.classList.remove("incorrect");
+      }
+    }
+    clearCardsOpen();
   }
+  endGame();
 }
 
 function closeCard() {
   for (let i = 0; i < cardsOpen.length; i++) {
-    let shownFace = document.querySelector(".shown-face.hide");
+    let shownFace = document.querySelector(".shown-face.incorrect.hide");
     shownFace.classList.remove("hide");
-    let hiddenFace = document.querySelector(".hidden-face.show");
-    hiddenFace.classList.add("hide");
+    shownFace.classList.add("show");
+    let hiddenFace = document.querySelector(".hidden-face.incorrect.show");
     hiddenFace.classList.remove("show");
+    hiddenFace.classList.add("hide");
   }
   clearCardsOpen();
 }
@@ -106,3 +131,10 @@ function closeCard() {
 function clearCardsOpen() {
   cardsOpen = [];
 }
+
+function endGame() {
+  if (correctPair.length === numberOfCards) {
+    alert(`Você ganhou em ${numberOfPlays} jogadas!`);
+  }
+}
+endGame();
