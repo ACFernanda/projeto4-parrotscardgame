@@ -59,3 +59,13 @@ main {
 .hide {
   visibility: hidden;
 }
+
+span {
+  color: red;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  justify-content: right;
+  margin-right: 16%;
+  margin-top: 15px;
+}

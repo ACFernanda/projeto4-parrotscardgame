@@ -28,7 +28,6 @@ function questionNumberOfCards() {
     );
   }
 }
-
 questionNumberOfCards();
 
 function dealCards() {
@@ -86,6 +85,7 @@ function flipCard() {
   hiddenFace.classList.add("show");
 
   numberOfPlays = numberOfPlays + 1;
+  setTimeout(endGame, 0300);
 }
 
 function checkPair() {
@@ -113,7 +113,6 @@ function checkPair() {
     }
     clearCardsOpen();
   }
-  endGame();
 }
 
 function closeCard() {
@@ -134,7 +133,21 @@ function clearCardsOpen() {
 
 function endGame() {
   if (correctPair.length === numberOfCards) {
-    alert(`Você ganhou em ${numberOfPlays} jogadas!`);
+    alert(`Você ganhou em ${numberOfPlays} jogadas em ${interval} segundos!`);
+    let playAgain = prompt(
+      "Jogar novamente? Vou insistir até você dizer 'SIM'."
+    );
+    while (playAgain.toUpperCase() !== "SIM") {
+      playAgain = prompt("Jogar novamente? Vou insistir até você dizer 'SIM'.");
+    }
+    window.location.reload();
   }
 }
-endGame();
+
+let interval = 0;
+function addOneSecond() {
+  const stopwatch = document.querySelector("span");
+  stopwatch.innerHTML = parseInt(stopwatch.innerHTML) + 1;
+  interval = interval + 1;
+}
+setInterval(addOneSecond, 1000);
